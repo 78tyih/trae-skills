@@ -11,6 +11,16 @@
 | **sera-creator-intelligence** | 频道/视频库 → Transcript → Main Thesis / Claims / Evidence 拆解 → Knowledge Score + Must Watch/Worth/Skim/Skip → Creator Report | 分析博主、频道、视频值得不值得看；沉淀 JSON + Notion/Obsidian |
 | **sera-visual-intelligence** | 先判断信息结构，再路由到 Flowchart / Gantt / Timeline / Mind Map / Chart / Knowledge Graph 等最合适的可视化 | 要求画图/总览/架构图，或长文本明显可以视觉化时 |
 
+## 什么时候需要哪个技能
+
+**grill-decision-tree —— 想法还模糊的时候。** 「帮我做个工具」这种一句话需求；脑里有想法但说不清；多人对需求理解不一致。它不执行任务，它先把任务问清楚再路由。
+
+**onchain-transaction-verifier —— 对方声称已转账、但你存疑的时候。** 说转了没到账；共享屏幕显示 Success 催你放货；提议「双方同步按转账」；用「冷钱包/确认慢/交易所延迟」催付款；拒绝给完整 TxHash。任一出现就该查账而不是猜人。
+
+**sera-creator-intelligence —— 要对博主/频道做判断的时候。** 收藏了几十个视频想知道哪些值得看；想知道博主是真有货还是炒冷饭；要持续监控并同步 Notion。注意边界：不做视频制作/剪辑。
+
+**sera-visual-intelligence —— 要把信息画出来、但不确定画成什么的时候。** 排期要汇报、长笔记要给人快速理解、概念关系要梳理。它先判断信息结构再路由图型，专治「什么都画成 flowchart」。
+
 ## 快速开始
 
 ```bash

@@ -55,6 +55,31 @@ h2{font-family:var(--font-display);font-size:clamp(1.5rem,2.8vw,2.1rem);letter-s
 .sk-trigger{margin-top:14px;font-size:12.5px;border-top:1px solid var(--hairline);padding-top:12px}
 .sk-trigger b{color:var(--accent);font-weight:600;font-family:var(--mono);font-size:11.5px}
 
+/* scenario tabs */
+.sc-tabs{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:0}
+.sc-tab{border:1px solid var(--hairline);background:var(--panel);color:var(--ink2);border-radius:12px 12px 0 0;padding:12px 18px;font-size:13.5px;font-weight:500;cursor:pointer;font-family:var(--font-body);transition:all .15s ease;border-bottom:0;text-align:left}
+.sc-tab small{display:block;font-size:11px;color:var(--ink3);margin-top:2px;font-weight:400}
+.sc-tab:hover{color:var(--ink)}
+.sc-tab.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.sc-tab.on small{color:rgba(255,255,255,.75)}
+.sc-panel{border:1px solid var(--hairline);border-radius:0 18px 18px 18px;background:var(--panel);padding:30px 34px 32px}
+@media(max-width:700px){.sc-panel{padding:22px 20px 26px}}
+.sc-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:30px}
+@media(max-width:880px){.sc-grid{grid-template-columns:1fr}}
+.sc-situations h4{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3);font-weight:600;margin:0 0 12px}
+.sc-item{display:flex;gap:12px;padding:11px 0;border-bottom:1px dashed var(--hairline);font-size:14px;color:var(--ink2)}
+.sc-item:last-child{border-bottom:0}
+.sc-item i{font-style:normal;color:var(--accent);font-family:var(--mono);font-size:11px;padding-top:3px;min-width:20px}
+.sc-trigger{margin-top:18px;background:var(--accent-soft);border-radius:12px;padding:14px 18px;font-size:13px;color:var(--ink2)}
+.sc-trigger b{display:block;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.vs{display:flex;flex-direction:column;gap:14px}
+.vs-card{border-radius:14px;padding:18px 20px;font-size:13.5px;line-height:1.7}
+.vs-card b{display:block;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;margin-bottom:8px}
+.vs-no{background:color-mix(in srgb,var(--warn,#C77E28) 9%,transparent);border:1px solid color-mix(in srgb,var(--warn,#C77E28) 35%,transparent);color:var(--ink2)}
+.vs-no b{color:var(--warn,#C77E28)}
+.vs-yes{background:color-mix(in srgb,var(--ok,#2F9E6E) 9%,transparent);border:1px solid color-mix(in srgb,var(--ok,#2F9E6E) 35%,transparent);color:var(--ink2)}
+.vs-yes b{color:var(--ok,#2F9E6E)}
+
 /* decision tree demo */
 .tree{border:1px solid var(--hairline);border-radius:20px;background:var(--panel);overflow:hidden}
 .tree-bar{display:flex;align-items:center;gap:10px;padding:14px 20px;border-bottom:1px solid var(--hairline);flex-wrap:wrap}
@@ -136,9 +161,19 @@ footer{padding:42px 0 56px;color:var(--ink3);font-size:12.5px}
   </div>
 </section>
 
+<section id="when">
+  <div class="sec-head">
+    <div class="sec-no">01 · WHEN TO USE</div>
+    <h2><span class="zh">什么情况下，才需要用到它们</span><span class="en">When you actually need these</span></h2>
+    <p class="sec-sub"><span class="zh">选一个技能，看它到底接住哪些具体处境——情境全部来自 SKILL.md 的触发条件原文，不是编的营销场景。</span><span class="en">Pick a skill to see the exact situations it catches — all drawn from the trigger conditions written in each SKILL.md.</span></p>
+  </div>
+  <div class="sc-tabs" id="sc-tabs"></div>
+  <div class="sc-panel" id="sc-panel"></div>
+</section>
+
 <section id="skills">
   <div class="sec-head">
-    <div class="sec-no">01 · SKILLS</div>
+    <div class="sec-no">02 · SKILLS</div>
     <h2><span class="zh">四个技能</span><span class="en">The four skills</span></h2>
     <p class="sec-sub"><span class="zh">每个技能 = 一个目录 + 一份 SKILL.md（触发描述 + 流程 + 硬规则）。</span><span class="en">Each skill = one folder + one SKILL.md (trigger, process, hard rules).</span></p>
   </div>
@@ -147,7 +182,7 @@ footer{padding:42px 0 56px;color:var(--ink3);font-size:12.5px}
 
 <section id="tree">
   <div class="sec-head">
-    <div class="sec-no">02 · DECISION TREE DEMO</div>
+    <div class="sec-no">03 · DECISION TREE DEMO</div>
     <h2><span class="zh">决策树演示 · 以一个真实模糊想法走完全程</span><span class="en">Decision-tree demo · one vague idea, full run</span></h2>
     <p class="sec-sub"><span class="zh">示例答案取自本技能的真实起源案例（它就是被「字幕工具」这个模糊想法逼出来的）。实际使用时答案由你给出，Agent 只负责问和路由。</span><span class="en">The sample answers come from this skill's own origin case. In real use, answers are yours; the agent only asks and routes.</span></p>
   </div>
@@ -164,7 +199,7 @@ footer{padding:42px 0 56px;color:var(--ink3);font-size:12.5px}
 
 <section id="onchain">
   <div class="sec-head">
-    <div class="sec-no">03 · ANTI-SCAM VERIFIER</div>
+    <div class="sec-no">04 · ANTI-SCAM VERIFIER</div>
     <h2><span class="zh">反诈骗查链 · 公开账本是唯一事实源</span><span class="en">On-chain verifier · the ledger is the only source of truth</span></h2>
     <p class="sec-sub"><span class="zh">截图、共享屏幕、绿色 Success、格式正确的 64 位哈希——都只是「对方展示的信息」。核验只回答一个可独立验证的问题：这笔交易是否真实存在且字段自洽。</span><span class="en">Screenshots, screen-shares, green checkmarks, well-formed hashes — all just "claimed info". Verification answers one checkable question: does the transaction exist on the public ledger, self-consistently?</span></p>
   </div>
@@ -180,7 +215,7 @@ footer{padding:42px 0 56px;color:var(--ink3);font-size:12.5px}
 </section>
 
 <section id="why">
-  <div class="sec-head"><div class="sec-no">04 · FOUR QUESTIONS</div><h2><span class="zh">四问速览</span><span class="en">Four questions</span></h2></div>
+  <div class="sec-head"><div class="sec-no">05 · FOUR QUESTIONS</div><h2><span class="zh">四问速览</span><span class="en">Four questions</span></h2></div>
   <div class="q">
     <div class="q-t"><span class="zh">解决什么问题</span><span class="en">Problem</span></div>
     <div class="q-b"><span class="zh">Agent 拿到模糊需求就开干，返工率高；用户拿「转账截图」当事实；视频拆解凭感觉；画图只会一种图型。四个技能把四种直觉冲动各换成一条硬流程。</span><span class="en">Agents dive into vague briefs; users trust screenshots; video takes get gut-feel scores; everything becomes a flowchart. Four skills replace four instincts with hard processes.</span></div>
@@ -212,8 +247,63 @@ footer{padding:42px 0 56px;color:var(--ink3);font-size:12.5px}
 </div>
 
 <script>
-const SKILLS=[
- {no:"SKILL 01",n:{zh:"Grill 决策树",en:"Grill Decision Tree"},d:{zh:"模糊想法 → 5 轮苏格拉底提问 → 共享理解摘要 → 自动路由到 3 条执行路径（直接答 / Spec→Test→Review / Design→Verify）",en:"Vague idea → 5 Socratic rounds → shared understanding → auto-route to 3 paths"},t:{zh:"触发：「我有个模糊想法……」",en:"Trigger: \"I have a vague idea…\""}},
+const SCENARIOS=[
+ {id:"grill",tab:{zh:"Grill 决策树",en:"Grill Tree"},sub:{zh:"想法模糊就别急着开干",en:"Don't build on vague briefs"},
+  situations:{zh:[
+    "你对 Agent 说「帮我做个工具」——没说做什么、给谁用、做到什么程度",
+    "脑里有想法但说不清楚，写出来的需求连自己都觉得含糊",
+    "多人协作时各人对「要做什么」理解不一致，开工前需要对齐",
+    "Agent 拿到一句话需求就开写，三小时后交付一个能跑但不是你要的东西"],
+   en:["You tell the agent \"build me a tool\" — no who, what, or done-criteria",
+    "The idea is clear in your head but falls apart on paper",
+    "Teammates each read the same brief differently; alignment needed before kickoff",
+    "The agent starts coding from one sentence and ships the wrong thing"]},
+  trigger:{zh:"用户提出模糊想法、需求或问题时调用，不要直接在当前会话执行",en:"Invoke when the user raises a vague idea/request — don't just execute in-session"},
+  before:{zh:"Agent 猜一个方向直接动手；结果靠运气，返工靠眼泪",en:"The agent guesses a direction and runs; outcomes depend on luck"},
+  after:{zh:"5 轮提问钉死目标 / 边界 / 约束 → 共享理解摘要签字确认 → 路由到匹配的执行分支，一步不跳",en:"5 rounds pin down goal/scope/constraints → confirmed summary → routed to the matching path"}},
+ {id:"verifier",tab:{zh:"链上交易核验",en:"Ledger Verifier"},sub:{zh:"截图不算数，账本才算",en:"Screenshots aren't proof"},
+  situations:{zh:[
+    "对方说已经转账，但你迟迟没到账",
+    "对方共享屏幕，钱包 App 显示 Transaction Successful，催你先放货",
+    "对方提议「双方同步按转账」，比手速",
+    "对方以「冷钱包」「链上确认慢」「交易所入账延迟」为由催你付款",
+    "对方拒绝提供完整 TxHash / TxID，只给截图"],
+   en:["They claim they paid but nothing arrived on your side",
+    "Their screen-shared wallet shows \"Success\" and they rush you to release",
+    "They propose \"we both transfer at the same time\"",
+    "They push you to pay citing cold-wallet or slow confirmations",
+    "They refuse to share the full TxHash — screenshot only"]},
+  trigger:{zh:"出现以上任一情况时调用；TRON/TRC20 为首个重点支持网络，可扩展 EVM/Solana",en:"Invoke on any of the above; TRON/TRC20 first, extensible to EVM/Solana"},
+  before:{zh:"凭截图和话术判断「人像不像骗子」——要么被骗，要么错怪正常人",en:"You judge the person by screenshots and stories — get scammed, or wrongly accuse"},
+  after:{zh:"把说法拆成链上字段，只问一个可验证的问题：账本里有没有这笔自洽的交易？查无此账，立即终止",en:"Split claims into ledger fields; ask one checkable question: does a self-consistent transfer exist? No record → stop"}},
+ {id:"creator",tab:{zh:"Creator 情报",en:"Creator Intel"},sub:{zh:"别再凭感觉追博主",en:"Stop following on gut feel"},
+  situations:{zh:[
+    "收藏夹里几十个视频没时间看，想知道哪些值得看、哪些直接跳过",
+    "追了一个博主半年，想知道他是真有货还是反复炒冷饭",
+    "做行业情报：要持续监控某几个博主，更新自动沉淀到 Notion",
+    "要向团队汇报「这个频道值不值得列入学习清单」"],
+   en:["40 videos saved, no time — which are worth it?",
+    "Following a creator for months — real insight or recycled takes?",
+    "Competitive intel: monitor creators continuously, synced to Notion",
+    "Need to justify to your team whether a channel belongs on the reading list"]},
+  trigger:{zh:"分析博主 / 频道分析 / 视频拆解 / 论点论据 / 哪些视频值得看 / 监控博主时调用；不要用于视频制作剪辑",en:"Invoke for creator/channel analysis, video triage, worth-watching questions; not for video production"},
+  before:{zh:"凭印象打分：一个视频讲得好 → 整个频道都好；观点重复、预测打脸全都看不出来",en:"Gut-feel scoring: one good video = good channel; repetition and failed predictions stay invisible"},
+  after:{zh:"逐视频拆 Thesis / Claims / Evidence，Knowledge Score 六维打分 + must_watch / worth / skim / skip 判定，跨视频看重复与演变",en:"Per-video thesis/claims/evidence, six-dimension scores and watch verdicts, cross-video repetition & evolution"}},
+ {id:"visual",tab:{zh:"可视化路由",en:"Visual Router"},sub:{zh:"不是什么都要画成流程图",en:"Not everything is a flowchart"},
+  situations:{zh:[
+    "排期、里程碑要向老板汇报——拿出来的却是一页流水账文字",
+    "长篇研究/项目笔记要给别人快速理解，不知道该画成什么图",
+    "一堆概念之间有关系，想梳理成图谱而不是再堆一层列表",
+    "Agent 画图只会一种图型：什么都是 flowchart"],
+   en:["Milestones to present — but all you have is a wall of text",
+    "Long research notes others must grasp fast — but into which chart?",
+    "Concepts relate to each other; another nested list won't help",
+    "The agent only knows one diagram type: everything is a flowchart"]},
+  trigger:{zh:"要求可视化/流程图/甘特图/知识图谱/项目总览/架构图时调用，或当长文本明显可通过视觉表达提升理解时",en:"Invoke for visualization requests, or whenever visuals would clearly beat prose"},
+  before:{zh:"拿到需求就画 flowchart：时间问题画成流程、关系问题画成步骤，信息丢一半",en:"Defaulting to flowcharts: timelines become steps, relations become arrows — half the information lost"},
+  after:{zh:"先判断信息结构（时序？层级？关系？分布？），再路由到 Gantt / Mind Map / Knowledge Graph / Chart 等最合适的图型",en:"Judge the info structure first (time? hierarchy? relations?), then route to the right visual form"}}
+];
+const SKILLS=[ {no:"SKILL 01",n:{zh:"Grill 决策树",en:"Grill Decision Tree"},d:{zh:"模糊想法 → 5 轮苏格拉底提问 → 共享理解摘要 → 自动路由到 3 条执行路径（直接答 / Spec→Test→Review / Design→Verify）",en:"Vague idea → 5 Socratic rounds → shared understanding → auto-route to 3 paths"},t:{zh:"触发：「我有个模糊想法……」",en:"Trigger: \"I have a vague idea…\""}},
  {no:"SKILL 02",n:{zh:"链上交易核验",en:"On-chain Verifier"},d:{zh:"反诈骗查链：从公开账本反推 TxHash / From / To / Block / Time 并交叉核验，TRON/TRC20 优先",en:"Anti-scam verification against the public ledger; TRON/TRC20 first"},t:{zh:"触发：「核验这笔 TRC20 转账」",en:"Trigger: \"verify this TRC20 transfer\""}},
  {no:"SKILL 03",n:{zh:"Creator 情报",en:"Creator Intelligence"},d:{zh:"频道/视频库 → 拆解 Thesis/Claims/Evidence → Knowledge Score + Watch Verdict → Creator Report，沉淀 JSON + Notion/Obsidian",en:"Channels → thesis/claims/evidence → knowledge score & verdicts → reports"},t:{zh:"触发：「分析这个博主/频道」",en:"Trigger: \"analyze this creator\""}},
  {no:"SKILL 04",n:{zh:"可视化路由",en:"Visual Intelligence"},d:{zh:"先判断信息结构，再路由到 Flowchart / Gantt / Timeline / Mind Map / Chart / Knowledge Graph 等最合适的图型",en:"Judge the info structure first, then route to the right visual form"},t:{zh:"触发：「把这个流程画出来」",en:"Trigger: \"visualize this process\""}}
@@ -245,10 +335,30 @@ const L=o=>o[lang()];
 
 function setLang(l){document.documentElement.dataset.lang=l;localStorage.setItem("ts-lang",l);
  document.getElementById("lang-zh").classList.toggle("on",l==="zh");
- document.getElementById("lang-en").classList.toggle("on",l==="en");renderSkills();drawTree();}
+ document.getElementById("lang-en").classList.toggle("on",l==="en");renderSkills();renderScen();drawTree();}
 function setTheme(t){document.documentElement.dataset.theme=t;localStorage.setItem("ts-theme",t);
  document.getElementById("th-light").classList.toggle("on",t==="light");
  document.getElementById("th-dark").classList.toggle("on",t==="dark");}
+
+let curScenario=0;
+function renderScen(){
+ document.getElementById("sc-tabs").innerHTML=SCENARIOS.map((s,i)=>`
+  <button class="sc-tab${i===curScenario?" on":""}" onclick="pickScen(${i})">${L(s.tab)}<small>${L(s.sub)}</small></button>`).join("");
+ const s=SCENARIOS[curScenario];
+ document.getElementById("sc-panel").innerHTML=`
+  <div class="sc-grid">
+    <div class="sc-situations">
+      <h4><span class="zh">这些情况就该调用 · ${L(s.tab)}</span><span class="en">Call it in these situations · ${L(s.tab)}</span></h4>
+      ${L(s.situations).map((x,i)=>`<div class="sc-item"><i>${String(i+1).padStart(2,"0")}</i><span>${x}</span></div>`).join("")}
+      <div class="sc-trigger"><b><span class="zh">触发判定 · SKILL.md 原文</span><span class="en">Trigger · verbatim from SKILL.md</span></b>${L(s.trigger)}</div>
+    </div>
+    <div class="vs">
+      <div class="vs-card vs-no"><b><span class="zh">没有这个技能</span><span class="en">Without it</span></b>${L(s.before)}</div>
+      <div class="vs-card vs-yes"><b><span class="zh">有了之后</span><span class="en">With it</span></b>${L(s.after)}</div>
+    </div>
+  </div>`;
+}
+function pickScen(i){curScenario=i;renderScen();}
 
 function renderSkills(){
  document.getElementById("sk-grid").innerHTML=SKILLS.map(s=>`
@@ -310,7 +420,7 @@ function observeReveals(){
  const q=new URLSearchParams(location.search);
  setTheme(q.get("theme")||localStorage.getItem("ts-theme")||"light");
  setLang(q.get("lang")||localStorage.getItem("ts-lang")||(navigator.language.startsWith("zh")?"zh":"en"));
- drawTree();observeReveals();
+ drawTree();renderScen();observeReveals();
 })();
 </script>
 </body>
