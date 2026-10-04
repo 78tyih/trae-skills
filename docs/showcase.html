@@ -115,14 +115,21 @@ h2{font-family:var(--font-display);font-size:clamp(1.5rem,2.8vw,2.1rem);letter-s
 .tbl td:first-child{font-weight:600;white-space:nowrap}
 .tbl code{font-family:var(--mono);font-size:11.5px;background:var(--accent-soft);color:var(--accent);padding:2px 7px;border-radius:6px}
 
-/* four questions */
-.q{display:grid;grid-template-columns:150px 1fr;gap:24px;padding:24px 0;border-top:1px solid var(--hairline)}
-.q:first-of-type{border-top:0}
-@media(max-width:820px){.q{grid-template-columns:1fr;gap:8px}}
-.q-t{font-family:var(--font-display);font-size:16px;font-weight:600}
-.q-t span{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-top:4px;font-family:var(--font-body);font-weight:500}
-.q-b{color:var(--ink2);font-size:14.5px} .q-b b{color:var(--ink)}
-.q-b ul{margin:8px 0 0;padding-left:18px} .q-b li{margin:5px 0}
+/* four questions — FAQ */
+.faq{border:1px solid var(--hairline);background:var(--panel)}
+details.faq-item{border-bottom:1px solid var(--hairline)}
+details.faq-item:last-child{border-bottom:0}
+details.faq-item summary{cursor:pointer;list-style:none;display:flex;gap:14px;align-items:baseline;padding:17px 20px;font-weight:600;font-size:14.5px}
+details.faq-item summary::-webkit-details-marker{display:none}
+details.faq-item summary:hover{color:var(--accent)}
+details.faq-item summary .qm{font-family:var(--mono);color:var(--accent);font-size:11px;min-width:24px}
+details.faq-item summary .qt{flex:1}
+details.faq-item summary .qc{color:var(--ink3);font-size:14px;font-family:var(--mono);transition:transform .15s ease}
+details.faq-item[open] summary .qc{transform:rotate(45deg)}
+details.faq-item .qa{padding:0 20px 20px 58px;color:var(--ink2);font-size:14px;line-height:1.75}
+details.faq-item .qa b{color:var(--ink)}
+details.faq-item .qa ul{margin:8px 0 0;padding-left:18px}
+details.faq-item .qa li{margin:5px 0}
 footer{padding:42px 0 56px;color:var(--ink3);font-size:12.5px}
 .fm{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 .dot{width:7px;height:7px;border-radius:50%;background:#2F9E6E;display:inline-block}
@@ -215,28 +222,31 @@ footer{padding:42px 0 56px;color:var(--ink3);font-size:12.5px}
 </section>
 
 <section id="why">
-  <div class="sec-head"><div class="sec-no">05 · FOUR QUESTIONS</div><h2><span class="zh">四问速览</span><span class="en">Four questions</span></h2></div>
-  <div class="q">
-    <div class="q-t"><span class="zh">解决什么问题</span><span class="en">Problem</span></div>
-    <div class="q-b"><span class="zh">Agent 拿到模糊需求就开干，返工率高；用户拿「转账截图」当事实；视频拆解凭感觉；画图只会一种图型。四个技能把四种直觉冲动各换成一条硬流程。</span><span class="en">Agents dive into vague briefs; users trust screenshots; video takes get gut-feel scores; everything becomes a flowchart. Four skills replace four instincts with hard processes.</span></div>
-  </div>
-  <div class="q">
-    <div class="q-t"><span class="zh">什么场景，什么结果</span><span class="en">Scenario → Outcome</span></div>
-    <div class="q-b"><span class="zh">「我有个模糊想法」→ 5 轮澄清 + 明确分支（上面可演示）；「对方说转了 USDT」→ 链上字段核验；「这个博主值得追吗」→ 带证据链的 Knowledge Score 与 Watch Verdict。</span><span class="en">"I have an idea" → 5 rounds + a clear route (demo above); "they sent USDT" → ledger verification; "is this creator worth following" → evidence-backed Knowledge Score.</span></div>
-  </div>
-  <div class="q">
-    <div class="q-t"><span class="zh">什么结构</span><span class="en">Architecture</span></div>
-    <div class="q-b"><span class="zh">每技能 = 目录 + SKILL.md。grill 与查链是本仓库完整实现；creator / visual 两个是 canonical 规范的 Trae 触发入口（指向 sera-opc-os 与 SeraContextHub），不在本仓库复刻协议，避免双源漂移。</span><span class="en">Each skill = folder + SKILL.md. Grill and verifier are fully implemented here; creator/visual are Trae entry points to canonical specs (sera-opc-os, SeraContextHub) — deliberately not forked to avoid dual-source drift.</span></div>
-  </div>
-  <div class="q">
-    <div class="q-t"><span class="zh">能复用什么</span><span class="en">Value & Reuse</span></div>
-    <div class="q-b">
-      <ul>
-        <li><b><span class="zh">grill 5 轮问题模板 + 三分支路由表</span></b> — <span class="zh">任何 Agent 直接抄，不绑定 Trae</span><span class="en">Steal the 5-round template + routing table for any agent</span></li>
-        <li><b><span class="zh">查链五字段交叉核验方法论</span></b> — <span class="zh">TRON/TRC20 起步，路径可扩展到 EVM/Solana</span><span class="en">Five-field cross-verification, extensible to EVM/Solana</span></li>
-        <li><b><span class="zh">Knowledge Score 六维权重</span></b> — <span class="zh">Insight 20 / Evergreen 20 / Evidence 15 / Novelty 15 / Argument 15 / Density 15</span><span class="en">Six-dimension scoring weights, ready to reuse</span></li>
-      </ul>
-    </div>
+  <div class="sec-head"><div class="sec-no">05 · FAQ</div><h2><span class="zh">常见问题 · 四问速览</span><span class="en">FAQ · The four questions</span></h2></div>
+  <div class="faq">
+    <details class="faq-item" open>
+      <summary><span class="qm">Q1</span><span class="qt"><span class="zh">这套技能解决什么问题？</span><span class="en">What problem does this pack solve?</span></span><span class="qc">＋</span></summary>
+      <div class="qa"><span class="zh">Agent 拿到模糊需求就开干，返工率高；用户拿「转账截图」当事实；视频拆解凭感觉；画图只会一种图型。四个技能把四种直觉冲动各换成一条硬流程。</span><span class="en">Agents dive into vague briefs; users trust screenshots; video takes get gut-feel scores; everything becomes a flowchart. Four skills replace four instincts with hard processes.</span></div>
+    </details>
+    <details class="faq-item">
+      <summary><span class="qm">Q2</span><span class="qt"><span class="zh">什么场景下用？能得到什么结果？</span><span class="en">In what scenario, with what outcome?</span></span><span class="qc">＋</span></summary>
+      <div class="qa"><span class="zh">「我有个模糊想法」→ 5 轮澄清 + 明确分支（上面可演示）；「对方说转了 USDT」→ 链上字段核验；「这个博主值得追吗」→ 带证据链的 Knowledge Score 与 Watch Verdict。</span><span class="en">"I have an idea" → 5 rounds + a clear route (demo above); "they sent USDT" → ledger verification; "is this creator worth following" → evidence-backed Knowledge Score.</span></div>
+    </details>
+    <details class="faq-item">
+      <summary><span class="qm">Q3</span><span class="qt"><span class="zh">内部是什么结构？</span><span class="en">How is it structured?</span></span><span class="qc">＋</span></summary>
+      <div class="qa"><span class="zh">每技能 = 目录 + SKILL.md。grill 与查链是本仓库完整实现；creator / visual 两个是 canonical 规范的 Trae 触发入口（指向 sera-opc-os 与 SeraContextHub），不在本仓库复刻协议，避免双源漂移。</span><span class="en">Each skill = folder + SKILL.md. Grill and verifier are fully implemented here; creator/visual are Trae entry points to canonical specs (sera-opc-os, SeraContextHub) — deliberately not forked.</span></div>
+    </details>
+    <details class="faq-item">
+      <summary><span class="qm">Q4</span><span class="qt"><span class="zh">我能复用 / 抄走什么？</span><span class="en">What can I reuse?</span></span><span class="qc">＋</span></summary>
+      <div class="qa">
+        <span class="zh">三条最值钱的：</span><span class="en">The three most reusable pieces:</span>
+        <ul>
+          <li><b><span class="zh">grill 5 轮问题模板 + 三分支路由表</span></b> — <span class="zh">任何 Agent 直接抄，不绑定 Trae</span><span class="en">the 5-round template + routing table, agent-agnostic</span></li>
+          <li><b><span class="zh">查链五字段交叉核验方法论</span></b> — <span class="zh">TRON/TRC20 起步，可扩展 EVM/Solana</span><span class="en">five-field cross-verification, extensible to EVM/Solana</span></li>
+          <li><b><span class="zh">Knowledge Score 六维权重</span></b> — <span class="zh">Insight 20 / Evergreen 20 / Evidence 15 / Novelty 15 / Argument 15 / Density 15</span><span class="en">six-dimension scoring weights</span></li>
+        </ul>
+      </div>
+    </details>
   </div>
 </section>
 
