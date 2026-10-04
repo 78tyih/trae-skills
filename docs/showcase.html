@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Trae Skills — Agent 技能库 · 交互展示</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,400&family=Inter:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F8FA; --panel:#FFFFFF; --ink:#14181F; --ink2:#59616E; --ink3:#8B93A1;
+  --hairline:rgba(20,24,31,.13); --accent:#4D6BFE; --accent-soft:rgba(77,107,254,.09);
+  --ok:#2F9E6E; --warn:#C77E28; --font-display:"Playfair Display","Noto Serif SC",serif;
+  --font-body:"Inter","Noto Sans SC",system-ui,sans-serif; --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+html[data-theme="dark"]{
+  --paper:#101318; --panel:#181D26; --ink:#E9ECF1; --ink2:#A2AAB8; --ink3:#5F6875;
+  --hairline:rgba(233,236,241,.14); --accent:#6B8BFF; --accent-soft:rgba(107,139,255,.13);
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--font-body);margin:0;line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1140px;margin:0 auto;padding:0 34px}
+.en{display:none} html[data-lang="en"] .en{display:inline} html[data-lang="en"] .zh{display:none}
+header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--hairline)}
+.hd{display:flex;align-items:center;justify-content:space-between;padding:15px 34px;max-width:1140px;margin:0 auto}
+.logo{font-family:var(--font-display);font-size:19px;font-weight:600;text-decoration:none}.logo b{color:var(--accent)}
+.hd-right{display:flex;gap:8px}
+.tgl{border:1px solid var(--hairline);background:transparent;color:var(--ink2);border-radius:999px;padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;font-family:var(--font-body);transition:all .15s ease}
+.tgl:hover{color:var(--ink);border-color:var(--ink3)} .tgl.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.hero{padding:84px 0 60px;border-bottom:1px solid var(--hairline)}
+.kicker{display:flex;align-items:center;gap:14px;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
+.kicker::before{content:"";width:34px;height:1px;background:var(--ink3)}
+h1.sv{font-family:var(--font-display);font-size:clamp(2.4rem,5.2vw,4rem);line-height:1.08;letter-spacing:-.03em;font-weight:500;margin:24px 0 0;max-width:22ch}
+h1.sv em{font-style:italic;color:var(--accent)}
+.sub{max-width:64ch;color:var(--ink2);font-size:15.5px;margin:20px 0 0}
+.chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:26px}
+.chip{border:1px solid var(--hairline);border-radius:999px;padding:6px 14px;font-size:12.5px;color:var(--ink2);background:var(--panel)}
+.chip b{color:var(--accent);font-weight:600}
+.cta{display:flex;gap:13px;margin-top:30px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 23px;border-radius:999px;font-size:13.5px;font-weight:500;text-decoration:none;border:1px solid var(--hairline);transition:all .15s ease;cursor:pointer;font-family:var(--font-body);background:transparent;color:var(--ink)}
+.btn--accent{background:var(--accent);border-color:var(--accent);color:#fff}.btn--accent:hover{opacity:.9}
+.btn:hover{border-color:var(--ink3)}
+section{padding:66px 0;border-bottom:1px solid var(--hairline)}
+.sec-no{font-family:var(--font-display);font-size:13px;letter-spacing:.16em;color:var(--accent);font-weight:600}
+h2{font-family:var(--font-display);font-size:clamp(1.5rem,2.8vw,2.1rem);letter-spacing:-.02em;font-weight:500;margin:8px 0 0}
+.sec-head{margin-bottom:34px}.sec-sub{color:var(--ink2);font-size:14px;margin-top:10px;max-width:60ch}
+
+/* skill cards */
+.sk-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+@media(max-width:880px){.sk-grid{grid-template-columns:1fr}}
+.sk{border:1px solid var(--hairline);border-radius:16px;background:var(--panel);padding:24px 26px}
+.sk-no{font-family:var(--mono);font-size:11px;color:var(--ink3);letter-spacing:.1em}
+.sk-name{font-family:var(--font-display);font-size:19px;font-weight:600;margin-top:8px}
+.sk-desc{color:var(--ink2);font-size:13.5px;margin-top:10px;min-height:62px}
+.sk-trigger{margin-top:14px;font-size:12.5px;border-top:1px solid var(--hairline);padding-top:12px}
+.sk-trigger b{color:var(--accent);font-weight:600;font-family:var(--mono);font-size:11.5px}
+
+/* decision tree demo */
+.tree{border:1px solid var(--hairline);border-radius:20px;background:var(--panel);overflow:hidden}
+.tree-bar{display:flex;align-items:center;gap:10px;padding:14px 20px;border-bottom:1px solid var(--hairline);flex-wrap:wrap}
+.tree-bar .st{font-family:var(--mono);font-size:11.5px;color:var(--ink3);margin-left:auto}
+.tree-body{padding:34px 40px 38px;min-height:330px;display:flex;flex-direction:column;justify-content:center}
+@media(max-width:700px){.tree-body{padding:26px 22px 30px}}
+.rlabel{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.rq{font-family:var(--font-display);font-size:clamp(1.2rem,2.4vw,1.7rem);font-weight:500;margin:14px 0 0;line-height:1.4}
+.ra{margin-top:22px;border-left:2px solid var(--accent);padding:10px 0 10px 18px;color:var(--ink2);font-size:14.5px;background:var(--accent-soft);border-radius:0 12px 12px 0}
+.ra b{color:var(--ink);font-weight:600;font-size:11px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:4px}
+.sum{display:grid;grid-template-columns:110px 1fr;gap:10px 16px;font-size:14px;margin-top:18px}
+.sum dt{color:var(--ink3);font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding-top:2px}
+.sum dd{margin:0}
+.routes{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+@media(max-width:760px){.routes{grid-template-columns:1fr}}
+.rt{border:1px solid var(--hairline);border-radius:14px;padding:18px 20px;cursor:pointer;background:var(--panel);text-align:left;font-family:var(--font-body);transition:all .15s ease;color:var(--ink)}
+.rt:hover{border-color:var(--accent)}
+.rt.on{border-color:var(--accent);background:var(--accent-soft)}
+.rt-t{font-weight:600;font-size:14.5px}
+.rt-d{color:var(--ink2);font-size:12.5px;margin-top:6px}
+.tree-nav{display:flex;gap:10px;padding:16px 20px;border-top:1px solid var(--hairline);align-items:center}
+.flow{margin-top:20px}
+.flow-step{display:flex;gap:14px;align-items:baseline;padding:9px 0;border-bottom:1px dashed var(--hairline);font-size:14px}
+.flow-step:last-child{border-bottom:0}
+.flow-step i{font-family:var(--mono);font-style:normal;font-size:11px;color:var(--accent);min-width:88px}
+.flow-out{margin-top:16px;font-size:12.5px;color:var(--ink2)}
+.flow-out code{font-family:var(--mono);font-size:11.5px;background:var(--accent-soft);color:var(--accent);padding:2px 7px;border-radius:6px}
+
+/* table */
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th{text-align:left;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);font-weight:500;padding:10px 12px;border-bottom:1px solid var(--hairline)}
+.tbl td{padding:12px;border-bottom:1px solid var(--hairline);vertical-align:top}
+.tbl td:first-child{font-weight:600;white-space:nowrap}
+.tbl code{font-family:var(--mono);font-size:11.5px;background:var(--accent-soft);color:var(--accent);padding:2px 7px;border-radius:6px}
+
+/* four questions */
+.q{display:grid;grid-template-columns:150px 1fr;gap:24px;padding:24px 0;border-top:1px solid var(--hairline)}
+.q:first-of-type{border-top:0}
+@media(max-width:820px){.q{grid-template-columns:1fr;gap:8px}}
+.q-t{font-family:var(--font-display);font-size:16px;font-weight:600}
+.q-t span{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-top:4px;font-family:var(--font-body);font-weight:500}
+.q-b{color:var(--ink2);font-size:14.5px} .q-b b{color:var(--ink)}
+.q-b ul{margin:8px 0 0;padding-left:18px} .q-b li{margin:5px 0}
+footer{padding:42px 0 56px;color:var(--ink3);font-size:12.5px}
+.fm{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.dot{width:7px;height:7px;border-radius:50%;background:#2F9E6E;display:inline-block}
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+<header><div class="hd">
+  <a class="logo" href="#">Trae<b>Skills</b> <span class="zh" style="font-size:12px;color:var(--ink3);font-weight:400">技能库</span><span class="en" style="font-size:12px;color:var(--ink3);font-weight:400">skill pack</span></a>
+  <div class="hd-right">
+    <button class="tgl on" id="lang-zh" onclick="setLang('zh')">中</button>
+    <button class="tgl" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="tgl on" id="th-light" onclick="setTheme('light')">☀︎</button>
+    <button class="tgl" id="th-dark" onclick="setTheme('dark')">☾</button>
+  </div>
+</div></header>
+
+<div class="wrap">
+<section class="hero">
+  <div class="kicker">AGENT SKILL PACK <span style="color:var(--ink3)">·</span> TRAE READY</div>
+  <h1 class="sv"><span class="zh">四个技能，管住 Agent 的<em>四种冲动</em></span><span class="en">Four skills that curb your agent's <em>four instincts</em></span></h1>
+  <p class="sub"><span class="zh">想法模糊就闷头开干？查链前先信截图？拆视频凭感觉打分？画图只会 flowchart？——每个技能把一件事变成硬流程：先澄清再执行、先查账再下结论、先拆解再打分、先选图型再画图。目录 + SKILL.md，复制进 .trae/skills/ 即生效。</span>
+  <span class="en">Diving in on vague ideas? Trusting screenshots over the ledger? Scoring videos by gut? Flowcharting everything? — each skill turns one instinct into a hard process: clarify-then-execute, verify-then-conclude, dissect-then-score, route-then-draw. A folder + SKILL.md; copy into .trae/skills/ and it works.</span></p>
+  <div class="chips">
+    <span class="chip"><b>4</b> <span class="zh">技能</span><span class="en">skills</span></span>
+    <span class="chip"><b>5</b> <span class="zh">轮澄清提问</span><span class="en">rounds of grilling</span></span>
+    <span class="chip"><b>3</b> <span class="zh">执行分支</span><span class="en">execution routes</span></span>
+    <span class="chip"><b>5</b> <span class="zh">查链核心字段</span><span class="en">ledger fields</span></span>
+    <span class="chip"><span class="zh">零依赖</span><span class="en">zero deps</span> · SKILL.md</span>
+  </div>
+  <div class="cta">
+    <a class="btn btn--accent" href="#tree"><span class="zh">走一遍决策树演示 →</span><span class="en">Walk the decision tree →</span></a>
+    <a class="btn" href="https://github.com/78tyih/trae-skills">GitHub</a>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="sec-head">
+    <div class="sec-no">01 · SKILLS</div>
+    <h2><span class="zh">四个技能</span><span class="en">The four skills</span></h2>
+    <p class="sec-sub"><span class="zh">每个技能 = 一个目录 + 一份 SKILL.md（触发描述 + 流程 + 硬规则）。</span><span class="en">Each skill = one folder + one SKILL.md (trigger, process, hard rules).</span></p>
+  </div>
+  <div class="sk-grid" id="sk-grid"></div>
+</section>
+
+<section id="tree">
+  <div class="sec-head">
+    <div class="sec-no">02 · DECISION TREE DEMO</div>
+    <h2><span class="zh">决策树演示 · 以一个真实模糊想法走完全程</span><span class="en">Decision-tree demo · one vague idea, full run</span></h2>
+    <p class="sec-sub"><span class="zh">示例答案取自本技能的真实起源案例（它就是被「字幕工具」这个模糊想法逼出来的）。实际使用时答案由你给出，Agent 只负责问和路由。</span><span class="en">The sample answers come from this skill's own origin case. In real use, answers are yours; the agent only asks and routes.</span></p>
+  </div>
+  <div class="tree">
+    <div class="tree-bar">
+      <button class="btn" id="nav-prev" onclick="step(-1)"><span class="zh">← 上一步</span><span class="en">← Back</span></button>
+      <button class="btn btn--accent" id="nav-next" onclick="step(1)"><span class="zh">下一步 →</span><span class="en">Next →</span></button>
+      <button class="btn" id="nav-reset" onclick="resetTree()"><span class="zh">↺ 重来</span><span class="en">↺ Restart</span></button>
+      <span class="st" id="tree-st"></span>
+    </div>
+    <div class="tree-body" id="tree-body"></div>
+  </div>
+</section>
+
+<section id="onchain">
+  <div class="sec-head">
+    <div class="sec-no">03 · ANTI-SCAM VERIFIER</div>
+    <h2><span class="zh">反诈骗查链 · 公开账本是唯一事实源</span><span class="en">On-chain verifier · the ledger is the only source of truth</span></h2>
+    <p class="sec-sub"><span class="zh">截图、共享屏幕、绿色 Success、格式正确的 64 位哈希——都只是「对方展示的信息」。核验只回答一个可独立验证的问题：这笔交易是否真实存在且字段自洽。</span><span class="en">Screenshots, screen-shares, green checkmarks, well-formed hashes — all just "claimed info". Verification answers one checkable question: does the transaction exist on the public ledger, self-consistently?</span></p>
+  </div>
+  <table class="tbl">
+    <tr><th><span class="zh">已知锚点</span><span class="en">Anchor</span></th><th><span class="zh">最短核验路径</span><span class="en">Shortest verification path</span></th></tr>
+    <tr><td>TxHash</td><td><span class="zh">一步反推全字段：Block / Time / From / To / Amount</span><span class="en">Derive everything: block, time, from, to, amount</span></td></tr>
+    <tr><td>Block + Time</td><td><span class="zh">验证两者是否自洽</span><span class="en">Check the two are self-consistent</span></td></tr>
+    <tr><td>Time</td><td><span class="zh">反推该时刻真实区块高度</span><span class="en">Derive the real block height at that time</span></td></tr>
+    <tr><td>To + Time</td><td><span class="zh">扫描真实收款地址在该窗口内的入账</span><span class="en">Scan the real recipient's inbound in that window</span></td></tr>
+    <tr><td>Address + Amount</td><td><span class="zh">筛候选交易，再以时间窗 / Token / 地址消歧</span><span class="en">Filter candidates, then disambiguate</span></td></tr>
+  </table>
+  <p class="sec-sub" style="margin-top:18px"><span class="zh">「两项足够」不是数学保证——组合可能对应多笔交易，此时必须加条件继续缩小范围。本技能只做技术核验，不做人身定性。</span><span class="en">"Two anchors suffice" is not a guarantee — combinations can match multiple transfers; keep narrowing. Technical verification only.</span></p>
+</section>
+
+<section id="why">
+  <div class="sec-head"><div class="sec-no">04 · FOUR QUESTIONS</div><h2><span class="zh">四问速览</span><span class="en">Four questions</span></h2></div>
+  <div class="q">
+    <div class="q-t"><span class="zh">解决什么问题</span><span class="en">Problem</span></div>
+    <div class="q-b"><span class="zh">Agent 拿到模糊需求就开干，返工率高；用户拿「转账截图」当事实；视频拆解凭感觉；画图只会一种图型。四个技能把四种直觉冲动各换成一条硬流程。</span><span class="en">Agents dive into vague briefs; users trust screenshots; video takes get gut-feel scores; everything becomes a flowchart. Four skills replace four instincts with hard processes.</span></div>
+  </div>
+  <div class="q">
+    <div class="q-t"><span class="zh">什么场景，什么结果</span><span class="en">Scenario → Outcome</span></div>
+    <div class="q-b"><span class="zh">「我有个模糊想法」→ 5 轮澄清 + 明确分支（上面可演示）；「对方说转了 USDT」→ 链上字段核验；「这个博主值得追吗」→ 带证据链的 Knowledge Score 与 Watch Verdict。</span><span class="en">"I have an idea" → 5 rounds + a clear route (demo above); "they sent USDT" → ledger verification; "is this creator worth following" → evidence-backed Knowledge Score.</span></div>
+  </div>
+  <div class="q">
+    <div class="q-t"><span class="zh">什么结构</span><span class="en">Architecture</span></div>
+    <div class="q-b"><span class="zh">每技能 = 目录 + SKILL.md。grill 与查链是本仓库完整实现；creator / visual 两个是 canonical 规范的 Trae 触发入口（指向 sera-opc-os 与 SeraContextHub），不在本仓库复刻协议，避免双源漂移。</span><span class="en">Each skill = folder + SKILL.md. Grill and verifier are fully implemented here; creator/visual are Trae entry points to canonical specs (sera-opc-os, SeraContextHub) — deliberately not forked to avoid dual-source drift.</span></div>
+  </div>
+  <div class="q">
+    <div class="q-t"><span class="zh">能复用什么</span><span class="en">Value & Reuse</span></div>
+    <div class="q-b">
+      <ul>
+        <li><b><span class="zh">grill 5 轮问题模板 + 三分支路由表</span></b> — <span class="zh">任何 Agent 直接抄，不绑定 Trae</span><span class="en">Steal the 5-round template + routing table for any agent</span></li>
+        <li><b><span class="zh">查链五字段交叉核验方法论</span></b> — <span class="zh">TRON/TRC20 起步，路径可扩展到 EVM/Solana</span><span class="en">Five-field cross-verification, extensible to EVM/Solana</span></li>
+        <li><b><span class="zh">Knowledge Score 六维权重</span></b> — <span class="zh">Insight 20 / Evergreen 20 / Evidence 15 / Novelty 15 / Argument 15 / Density 15</span><span class="en">Six-dimension scoring weights, ready to reuse</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer><div class="fm">
+  <div><b style="color:var(--ink2)">Trae Skills</b> · <span class="zh">演示页的示例答案取自技能的真实起源案例；实际流程由 Agent 提问、用户作答。</span><span class="en">Demo answers come from the skill's real origin case; in use, the agent asks and you answer.</span></div>
+  <div><span class="dot"></span> <span class="zh">流程与文案逐字取自仓库 SKILL.md（Observed）</span><span class="en">Process text taken verbatim from the repo's SKILL.md (Observed)</span></div>
+</div></footer>
+</div>
+
+<script>
+const SKILLS=[
+ {no:"SKILL 01",n:{zh:"Grill 决策树",en:"Grill Decision Tree"},d:{zh:"模糊想法 → 5 轮苏格拉底提问 → 共享理解摘要 → 自动路由到 3 条执行路径（直接答 / Spec→Test→Review / Design→Verify）",en:"Vague idea → 5 Socratic rounds → shared understanding → auto-route to 3 paths"},t:{zh:"触发：「我有个模糊想法……」",en:"Trigger: \"I have a vague idea…\""}},
+ {no:"SKILL 02",n:{zh:"链上交易核验",en:"On-chain Verifier"},d:{zh:"反诈骗查链：从公开账本反推 TxHash / From / To / Block / Time 并交叉核验，TRON/TRC20 优先",en:"Anti-scam verification against the public ledger; TRON/TRC20 first"},t:{zh:"触发：「核验这笔 TRC20 转账」",en:"Trigger: \"verify this TRC20 transfer\""}},
+ {no:"SKILL 03",n:{zh:"Creator 情报",en:"Creator Intelligence"},d:{zh:"频道/视频库 → 拆解 Thesis/Claims/Evidence → Knowledge Score + Watch Verdict → Creator Report，沉淀 JSON + Notion/Obsidian",en:"Channels → thesis/claims/evidence → knowledge score & verdicts → reports"},t:{zh:"触发：「分析这个博主/频道」",en:"Trigger: \"analyze this creator\""}},
+ {no:"SKILL 04",n:{zh:"可视化路由",en:"Visual Intelligence"},d:{zh:"先判断信息结构，再路由到 Flowchart / Gantt / Timeline / Mind Map / Chart / Knowledge Graph 等最合适的图型",en:"Judge the info structure first, then route to the right visual form"},t:{zh:"触发：「把这个流程画出来」",en:"Trigger: \"visualize this process\""}}
+];
+const ROUNDS=[
+ {q:{zh:"第 1 轮 · 目标澄清：你想解决什么具体问题？期望达到什么效果？",en:"Round 1 · Goal: what problem, what outcome?"},
+  a:{zh:"给知识类视频做一套统一风格的字幕工具，逐词跟随语音，专业感拉满",en:"A subtitle tool for knowledge videos: word-level sync, professional look"}},
+ {q:{zh:"第 2 轮 · 边界确认：范围是什么？怎么判断做完了？",en:"Round 2 · Scope: what counts as done?"},
+  a:{zh:"Web 工作台 + SRT/VTT/ASS/JSON 四格式导出；成功 = 永远单行、逐词同步、active 词不推挤邻词",en:"Web studio + 4 export formats; done = single-line, word-synced, no reflow"}},
+ {q:{zh:"第 3 轮 · 约束识别：有什么限制？",en:"Round 3 · Constraints?"},
+  a:{zh:"Phase 1 不接数据库/登录/支付；纯前端、可静态托管；不做视频渲染",en:"Phase 1: no DB/login/payments; pure frontend, static hosting; no video rendering"}},
+ {q:{zh:"第 4 轮 · 方案预判：你有什么倾向？",en:"Round 4 · Leanings?"},
+  a:{zh:"组件化思路：字幕 = UI 组件，样式 = Recipe(JSON 配方)，复用 = 复制 JSON",en:"Componentize: caption = UI component, style = Recipe (JSON), reuse = copy JSON"}},
+ {q:{zh:"第 5 轮 · 决策确认：以上理解对吗？",en:"Round 5 · Confirm understanding"},
+  a:{zh:"对，按这个方向走",en:"Yes, proceed on this direction"}}
+];
+const SUM={goal:{zh:"给知识类视频做统一风格、逐词跟随语音的字幕工具",en:"A word-synced, style-consistent subtitle tool"},scope:{zh:"Web 工作台 + 四格式导出；单行/同步/不推挤",en:"Web studio + 4 formats; single-line/sync/no-reflow"},constraint:{zh:"纯前端、可静态托管，Phase 1 无后端",en:"Pure frontend, static hosting, no backend in Phase 1"},lean:{zh:"字幕 = 组件，样式 = Recipe(JSON)",en:"Caption = component, style = Recipe (JSON)"}};
+const ROUTES=[
+ {t:{zh:"分支 1 · 单独结束",en:"Route 1 · Answer & close"},d:{zh:"边界清晰，答案即解决",en:"Clear scope; the answer closes it"},
+  steps:[["<span class='zh'>直接给出答案/方案</span><span class='en'>Give the answer</span>"],["<span class='zh'>确认用户理解</span><span class='en'>Confirm understanding</span>"],["<span class='zh'>闭环结束</span><span class='en'>Close the loop</span>"]],out:"<span class='zh'>明确的答案/方案</span><span class='en'>A clear answer</span>"},
+ {t:{zh:"分支 2 · mattpocock/skills",en:"Route 2 · mattpocock/skills"},d:{zh:"技术实现，需代码质量",en:"Technical build, quality matters"},
+  steps:[["<span class='zh'>规格 Spec：输入/输出/接口/边界</span><span class='en'>Spec: I/O, interfaces, edges</span>"],["<span class='zh'>实现 Implement：按规格写码</span><span class='en'>Implement to spec</span>"],["<span class='zh'>测试 Test：逐条验证规格条件</span><span class='en'>Test each spec condition</span>"],["<span class='zh'>Code Review：质量/一致性/可维护</span><span class='en'>Review: quality & maintainability</span>"]],out:"<code>spec.md</code> + <span class='zh'>代码</span><span class='en'>code</span> + <span class='zh'>测试报告</span><span class='en'>test report</span> + <span class='zh'>审查记录</span><span class='en'>review log</span>"},
+ {t:{zh:"分支 3 · Superpowers",en:"Route 3 · Superpowers"},d:{zh:"跨职能、长周期、需验证 ROI",en:"Cross-functional, long-horizon, ROI-checked"},
+  steps:[["<span class='zh'>设计 Design：架构/方案对比/选型</span><span class='en'>Design: architecture & trade-offs</span>"],["<span class='zh'>计划 Plan：拆解/排期/里程碑</span><span class='en'>Plan: tasks & milestones</span>"],["<span class='zh'>执行 Execute：按计划实施</span><span class='en'>Execute the plan</span>"],["<span class='zh'>验证 Verify：对照成功标准出报告</span><span class='en'>Verify against success criteria</span>"]],out:"<span class='zh'>设计文档 + 计划 + 结果 + 验证报告</span><span class='en'>Design + plan + results + verification report</span>"}
+];
+let cur=0,route=1;
+const lang=()=>document.documentElement.dataset.lang;
+const L=o=>o[lang()];
+
+function setLang(l){document.documentElement.dataset.lang=l;localStorage.setItem("ts-lang",l);
+ document.getElementById("lang-zh").classList.toggle("on",l==="zh");
+ document.getElementById("lang-en").classList.toggle("on",l==="en");renderSkills();drawTree();}
+function setTheme(t){document.documentElement.dataset.theme=t;localStorage.setItem("ts-theme",t);
+ document.getElementById("th-light").classList.toggle("on",t==="light");
+ document.getElementById("th-dark").classList.toggle("on",t==="dark");}
+
+function renderSkills(){
+ document.getElementById("sk-grid").innerHTML=SKILLS.map(s=>`
+  <div class="sk reveal">
+    <div class="sk-no">${s.no}</div>
+    <div class="sk-name">${L(s.n)}</div>
+    <div class="sk-desc">${L(s.d)}</div>
+    <div class="sk-trigger"><b>${L(s.t).split("：")[0]}：</b>${L(s.t).split("：").slice(1).join("：")}</div>
+  </div>`).join("");
+ observeReveals();
+}
+
+function stepTree(i){
+ const r=ROUNDS[i];
+ return `<div class="rlabel">GRILL-ME · ${i+1} / 5</div>
+ <div class="rq">${L(r.q).replace(/^第 \d+ 轮 · /,"").replace(/^Round \d+ · \w+: ?/,"")}</div>
+ <div class="ra"><b><span class="zh">示例回答（真实起源案例）</span><span class="en">Sample answer (real origin case)</span></b>${L(r.a)}</div>`;
+}
+function sumView(){
+ const S=[["<span class='zh'>目标</span><span class='en'>Goal</span>",L(SUM.goal)],["<span class='zh'>范围</span><span class='en'>Scope</span>",L(SUM.scope)],["<span class='zh'>约束</span><span class='en'>Constraints</span>",L(SUM.constraint)],["<span class='zh'>倾向方案</span><span class='en'>Leanings</span>",L(SUM.lean)],["<span class='zh'>任务类型</span><span class='en'>Task type</span>","<span class='zh'>技术实现 + 复杂项目候选（本演示走到分支 3）</span><span class='en'>Technical build, complex-project candidate</span>"]];
+ return `<div class="rlabel"><span class="zh">阶段二 · 共享理解摘要</span><span class="en">Stage 2 · Shared understanding</span></div>
+ <div class="rq"><span class="zh">用户确认后进入分支路由</span><span class="en">Confirmed by user, then route</span></div>
+ <dl class="sum">${S.map(x=>`<dt>${x[0]}</dt><dd>${x[1]}</dd>`).join("")}</dl>`;
+}
+function routeView(){
+ return `<div class="rlabel"><span class="zh">阶段三 · 分支路由（点选查看流程）</span><span class="en">Stage 3 · Route (click to inspect)</span></div>
+ <div class="rq"><span class="zh">按任务类型三选一</span><span class="en">Pick one by task type</span></div>
+ <div class="routes">${ROUTES.map((r,i)=>`
+   <button class="rt${i===route?" on":""}" onclick="pickRoute(${i})">
+     <div class="rt-t">${L(r.t)}</div><div class="rt-d">${L(r.d)}</div>
+   </button>`).join("")}
+ </div>
+ <div class="flow">${ROUTES[route].steps.map((s,i)=>`<div class="flow-step"><i>${i+1}</i><span>${s}</span></div>`).join("")}
+ <div class="flow-out"><span class="zh">输出产物：</span><span class="en">Artifacts:</span> ${ROUTES[route].out}</div></div>`;
+}
+function drawTree(){
+ const body=document.getElementById("tree-body");
+ let html="";
+ if(cur<5)html=stepTree(cur);
+ else if(cur===5)html=sumView();
+ else html=routeView();
+ body.innerHTML=html;
+ document.getElementById("tree-st").textContent=`${cur+1} / 7`;
+ document.getElementById("nav-prev").style.visibility=cur===0?"hidden":"visible";
+ document.getElementById("nav-next").style.visibility=cur===6?"hidden":"visible";
+ document.getElementById("nav-next").innerHTML=cur===5?("<span class='zh'>查看分支 →</span><span class='en'>Route →</span>"):("<span class='zh'>下一步 →</span><span class='en'>Next →</span>");
+}
+function step(d){cur=Math.max(0,Math.min(6,cur+d));drawTree();}
+function pickRoute(i){route=i;drawTree();}
+function resetTree(){cur=0;route=1;drawTree();}
+
+let io;
+function observeReveals(){
+ io&&io.disconnect();
+ io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.1});
+ document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+}
+(function boot(){
+ const q=new URLSearchParams(location.search);
+ setTheme(q.get("theme")||localStorage.getItem("ts-theme")||"light");
+ setLang(q.get("lang")||localStorage.getItem("ts-lang")||(navigator.language.startsWith("zh")?"zh":"en"));
+ drawTree();observeReveals();
+})();
+</script>
+</body>
+</html>
